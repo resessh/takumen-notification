@@ -1,5 +1,6 @@
 import functions from 'firebase-functions';
 import { App, ExpressReceiver } from '@slack/bolt';
+import { useTakumenCommand } from './slack/commands';
 
 const configs = functions.config();
 const REGION = configs.functions.region;
@@ -17,11 +18,7 @@ const app = new App({
 
 app.error(async (error) => console.error(error));
 
-app.command('/takumen', async ({ command, ack, say }) => {
-  console.log('😂', command); // eslint-disable-line
-  await ack();
-  await say(`You said "${command.text}"`);
-});
+useTakumenCommand(app);
 
 // exports.slack = functions
 //   .runWith({
