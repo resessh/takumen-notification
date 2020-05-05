@@ -1,5 +1,6 @@
 import type { App, SayFn, SlashCommand, RespondFn } from '@slack/bolt';
 import { sclapeProductInfo } from '../sclapers';
+import { updateProduct, addSubscriber } from '../store';
 
 // const handleListing = async (say: SayFn) => {};
 
@@ -45,6 +46,9 @@ const handleAddCommand = async ({
     return;
   }
   const product = productResult.unwrap();
+
+  await updateProduct(product);
+  await addSubscriber(product.id, command.user_id);
 
   say(
     `:inbox_tray: <@${command.user_id}>が「${product.name}」のパトロールを開始しました。`

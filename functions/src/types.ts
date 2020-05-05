@@ -4,3 +4,5 @@ export type Product = {
   thumbnail?: string;
   hasStock: boolean;
 };
+
+export type SlackId = string;

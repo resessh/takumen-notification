@@ -1,23 +1,23 @@
 import { db } from './firebase';
+import { Product, SlackId } from './types';
 
-// const TABLE_NAME = 'reservable_snapshots';
+export const updateProduct = async (product: Product) => {
+  await db.collection('products').doc(product.id).set({
+    name: product.name,
+    thumbnail: product.thumbnail,
+    hasStock: product.hasStock,
+  });
+};
 
-// export const fetchLastReservables = async (): Promise<TLessonPeriodsByDate> => {
-//   const lastSnapshot = await db
-//     .collection(TABLE_NAME)
-//     .orderBy('createdAt', 'desc')
-//     .limit(1)
-//     .get();
+export const addSubscriber = async (
+  productId: Product['id'],
+  slackId: SlackId
+) => {
+  await db
+    .collection('products')
+    .doc(productId)
+    .collection('subscribers')
+    .doc(slackId)
+    .set({});
+};
 
-//   return lastSnapshot.docs[0].data().reservables || {};
-// };
-
-// export const saveReservables = async (reservables: TLessonPeriodsByDate) => {
-//   await db
-//     .collection(TABLE_NAME)
-//     .doc(`${getTime(new Date())}`)
-//     .set({
-//       createdAt: new Date(),
-//       reservables,
-//     });
-// };

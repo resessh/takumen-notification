@@ -1,12 +1,9 @@
-import * as admin from 'firebase-admin';
-import * as functions from 'firebase-functions';
-import 'firebase-functions';
-admin.initializeApp(functions.config().firebase);
+import admin from 'firebase-admin';
+import { serviceAccount } from '../serviceAccountKey.generated';
 
-const firestore = admin.firestore();
-firestore.settings({
-  timestampsInSnapshots: true,
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+  databaseURL: 'https://takumen-notification.firebaseio.com',
 });
 
-export default admin;
-export const db = firestore;
+export const db = admin.firestore();
