@@ -18,15 +18,20 @@
   "dependencies": {
     "@slack/bolt": "^2.0.1",
     "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
     "date-fns": "^2.12.0",
     "firebase-admin": "~8.10.0",
     "firebase-functions": "^3.6.0",
+    "ky": "^0.19.1",
+    "ky-universal": "^0.6.0",
+    "option-t": "^22.3.2",
     "remove": "^0.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@rollup/plugin-typescript": "^4.1.1",
+    "@types/cheerio": "^0.22.18",
     "@types/node": "^10.13.18",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",

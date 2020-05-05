@@ -1,4 +1,5 @@
 import type { App, SayFn, SlashCommand, RespondFn } from '@slack/bolt';
+import { sclapeProductInfo } from '../sclapers';
 
 // const handleListing = async (say: SayFn) => {};
 
@@ -33,7 +34,21 @@ const handleAddCommand = async ({
     });
     return;
   }
-  say(`:inbox_tray: <@${command.user_id}>が${productId}を登録しました`);
+
+  const productResult = await sclapeProductInfo(productId);
+  if (productResult.isNone) {
+    respond({
+      text:
+        ':warning: 予期しないエラーが発生しました。正しい商品URLか商品IDを指定して、もう一度チャレンジしてみてください。',
+      response_type: 'ephemeral',
+    });
+    return;
+  }
+  const product = productResult.unwrap();
+
+  say(
+    `:inbox_tray: <@${command.user_id}>が「${product.name}」のパトロールを開始しました。`
+  );
 };
 
 export const useTakumenCommand = (app: App) => {
