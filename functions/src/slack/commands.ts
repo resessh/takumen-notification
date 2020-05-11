@@ -1,6 +1,7 @@
 import type { App, SayFn, SlashCommand, RespondFn } from '@slack/bolt';
 import { sclapeProductInfo } from '../sclapers';
-import { updateProduct, addSubscriber } from '../store';
+import { upsertProduct, addSubscriber, getSubscribedProducts } from '../store';
+import { renderProductListBlockTemplate } from '../views/productList';
 
 // const handleListing = async (say: SayFn) => {};
 
@@ -47,12 +48,24 @@ const handleAddCommand = async ({
   }
   const product = productResult.unwrap();
 
-  await updateProduct(product);
+  await upsertProduct(product);
   await addSubscriber(product.id, command.user_id);
 
   say(
     `:inbox_tray: <@${command.user_id}>が「${product.name}」のパトロールを開始しました。`
   );
+};
+
+const handleListingCommand = async ({
+  command,
+  respond,
+}: CommandHandlerArgs) => {
+  const products = await getSubscribedProducts(command.user_id);
+  respond({
+    text: '登録済みの宅麺はこちら',
+    blocks: renderProductListBlockTemplate(products),
+    response_type: 'ephemeral',
+  });
 };
 
 export const useTakumenCommand = (app: App) => {
@@ -61,6 +74,8 @@ export const useTakumenCommand = (app: App) => {
 
     if (command.text.startsWith('add ')) {
       await handleAddCommand({ command, say, respond });
+    } else if (command.text.startsWith('list')) {
+      await handleListingCommand({ command, say, respond });
     }
   });
 };
