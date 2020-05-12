@@ -35,13 +35,33 @@ export const addSubscriber = async (
 ) => {
   const productRef = await db.collection('products').doc(productId);
 
-  const existsSubscribers: string[] = (await productRef.get()).data()
-    ?.subscribers;
+  const existsSubscribers: string[] =
+    (await productRef.get()).data()?.subscribers ?? [];
   const newSubscribers = Array.from(new Set(existsSubscribers).add(slackId));
 
-  productRef.update({
+  await productRef.update({
     subscribers: newSubscribers,
   });
+};
+
+export const removeSubscriber = async (
+  productId: Product['id'],
+  slackId: SlackId
+): Promise<Product> => {
+  const productRef = await db.collection('products').doc(productId);
+  const product = (await productRef.get()).data();
+
+  const existsSubscribers: string[] = product?.subscribers ?? [];
+  const newSubscribers = existsSubscribers.filter((item) => item !== slackId);
+
+  if (newSubscribers.length === 0) {
+    await productRef.delete();
+  } else {
+    await productRef.update({
+      subscribers: newSubscribers,
+    });
+  }
+  return { id: productId, ...product } as Product;
 };
 
 export const getSubscribers = async (productId: Product['id']) => {

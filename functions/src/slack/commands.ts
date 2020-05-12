@@ -51,15 +51,14 @@ const handleAddCommand = async ({
   await upsertProduct(product);
   await addSubscriber(product.id, command.user_id);
 
-  say(
-    `:inbox_tray: <@${command.user_id}>が「${product.name}」のパトロールを開始しました。`
-  );
+  say(`:sound: <@${command.user_id}>が「${product.name}」を登録をしました。`);
 };
 
 const handleListingCommand = async ({
   command,
   respond,
 }: CommandHandlerArgs) => {
+  await respond({ text: 'リストを取得中です…', response_type: 'ephemeral' });
   const products = await getSubscribedProducts(command.user_id);
   respond({
     text: '登録済みの宅麺はこちら',

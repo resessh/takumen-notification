@@ -1,6 +1,7 @@
 import functions from 'firebase-functions';
 import { App, ExpressReceiver } from '@slack/bolt';
 import { useTakumenCommand } from './slack/commands';
+import { useTakumenAction } from './slack/actions';
 
 const configs = functions.config();
 const REGION = configs.functions.region;
@@ -19,6 +20,7 @@ const app = new App({
 app.error(async (error) => console.error(error));
 
 useTakumenCommand(app);
+useTakumenAction(app);
 
 // exports.slack = functions
 //   .runWith({
