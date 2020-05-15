@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { Product, SlackId } from './types';
+import { Product, SlackId, ProductWithSubscribers } from './types';
 
 const createProduct = async (product: Product) => {
   await db.collection('products').doc(product.id).set({
@@ -87,5 +87,21 @@ export const getSubscribedProducts = async (
         list.push({ ...doc.data(), id: doc.id } as Product);
       });
       return list;
+    });
+};
+
+export const getAllProducts = async (): Promise<ProductWithSubscribers[]> => {
+  return await db
+    .collection('products')
+    .get()
+    .then((snapshot) => {
+      const docs: ProductWithSubscribers[] = [];
+      snapshot.forEach((doc) => {
+        docs.push({
+          ...doc.data(),
+          id: doc.id,
+        } as ProductWithSubscribers);
+      });
+      return docs;
     });
 };

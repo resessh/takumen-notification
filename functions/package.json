@@ -24,6 +24,7 @@
     "firebase-functions": "^3.6.0",
     "ky": "^0.19.1",
     "ky-universal": "^0.6.0",
+    "node-fetch": "^2.6.0",
     "option-t": "^22.3.2",
     "remove": "^0.1.5"
   },
@@ -33,6 +34,7 @@
     "@rollup/plugin-typescript": "^4.1.1",
     "@types/cheerio": "^0.22.18",
     "@types/node": "^10.13.18",
+    "@types/node-fetch": "^2.5.7",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "rollup": "^2.7.2",

@@ -19,11 +19,11 @@ export default () => {
       babel({
         exclude: ['node_modules/**'],
       }),
-      // terser({
-      //   output: {
-      //     comments: /^!/,
-      //   },
-      // }),
+      terser({
+        output: {
+          comments: /^!/,
+        },
+      }),
     ],
   };
 };

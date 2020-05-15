@@ -2,6 +2,7 @@ import functions from 'firebase-functions';
 import { App, ExpressReceiver } from '@slack/bolt';
 import { useTakumenCommand } from './slack/commands';
 import { useTakumenAction } from './slack/actions';
+import { checkProductsHandler } from './checkProducts';
 
 const configs = functions.config();
 const REGION = configs.functions.region;
@@ -30,3 +31,6 @@ useTakumenAction(app);
 //   .region(REGION)
 //   .https.onRequest(receiver.app);
 export const slack = functions.region(REGION).https.onRequest(receiver.app);
+export const checkProducts = functions
+  .region(REGION)
+  .https.onRequest(checkProductsHandler);
