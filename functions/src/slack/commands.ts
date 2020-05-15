@@ -3,8 +3,6 @@ import { sclapeProductInfo } from '../sclapers';
 import { upsertProduct, addSubscriber, getSubscribedProducts } from '../store';
 import { renderProductListBlockTemplate } from '../views/productList';
 
-// const handleListing = async (say: SayFn) => {};
-
 type CommandHandlerArgs = {
   say: SayFn;
   respond: RespondFn;
@@ -27,6 +25,7 @@ const handleAddCommand = async ({
   say,
   respond,
 }: CommandHandlerArgs) => {
+  console.warn('😂 1. before exec', new Date().toISOString());
   const arg = command.text.split(' ')[1];
   const productId = getProductId(arg);
   if (!productId) {
@@ -37,6 +36,7 @@ const handleAddCommand = async ({
     return;
   }
 
+  console.warn('😂 2. before sclape', new Date().toISOString());
   const productResult = await sclapeProductInfo(productId);
   if (productResult.isNone) {
     respond({
@@ -48,10 +48,16 @@ const handleAddCommand = async ({
   }
   const product = productResult.unwrap();
 
+  console.warn('😂 3. before upsert store', new Date().toISOString());
   await upsertProduct(product);
+  console.warn('😂 4. before upsert subscriber', new Date().toISOString());
   await addSubscriber(product.id, command.user_id);
 
-  say(`:sound: <@${command.user_id}>が「${product.name}」を登録をしました。`);
+  console.warn('😂 5. before send message', new Date().toISOString());
+  await say(
+    `:sound: <@${command.user_id}>が「${product.name}」を登録をしました。`
+  );
+  console.warn('😂 6. finished', new Date().toISOString());
 };
 
 const handleListingCommand = async ({
@@ -59,12 +65,16 @@ const handleListingCommand = async ({
   respond,
 }: CommandHandlerArgs) => {
   await respond({ text: 'リストを取得中です…', response_type: 'ephemeral' });
+  console.warn('😂 1. before get list', new Date().toISOString());
   const products = await getSubscribedProducts(command.user_id);
-  respond({
+  console.warn('😂 2. before send message', new Date().toISOString());
+
+  await respond({
     text: '登録済みの宅麺はこちら',
     blocks: renderProductListBlockTemplate(products),
     response_type: 'ephemeral',
   });
+  console.warn('😂 3. finished', new Date().toISOString());
 };
 
 export const useTakumenCommand = (app: App) => {

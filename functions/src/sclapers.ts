@@ -1,5 +1,5 @@
-import ky from 'ky-universal';
-import cheerio from 'cheerio';
+import * as ky from 'ky-universal';
+import * as cheerio from 'cheerio';
 import { createSome, createNone } from 'option-t/cjs/Option';
 import type { Option } from 'option-t/cjs/Option';
 import type { Product } from './types';

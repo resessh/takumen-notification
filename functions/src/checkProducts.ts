@@ -1,4 +1,4 @@
-import functions from 'firebase-functions';
+import * as functions from 'firebase-functions';
 import fetch from 'node-fetch';
 import { getAllProducts, upsertProduct } from './store';
 import { sclapeProductInfo } from './sclapers';

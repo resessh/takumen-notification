@@ -1,7 +1,7 @@
 {
   "name": "functions",
   "scripts": {
-    "build": "rimraf ./dist && rollup -c",
+    "build": "rimraf ./dist && tsc",
     "serve": "yarn build && firebase emulators:start --only functions",
     "shell": "yarn build && firebase functions:shell",
     "start": "yarn shell",
@@ -29,18 +29,11 @@
     "remove": "^0.1.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
-    "@rollup/plugin-typescript": "^4.1.1",
     "@types/cheerio": "^0.22.18",
     "@types/node": "^10.13.18",
     "@types/node-fetch": "^2.5.7",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
-    "rollup": "^2.7.2",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-terser": "^5.3.0",
-    "rollup-plugin-typescript2": "^0.27.0",
     "typescript": "^3.8.3"
   },
   "private": true

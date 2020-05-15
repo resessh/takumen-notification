@@ -1,4 +1,4 @@
-import functions from 'firebase-functions';
+import * as functions from 'firebase-functions';
 import { App, ExpressReceiver } from '@slack/bolt';
 import { useTakumenCommand } from './slack/commands';
 import { useTakumenAction } from './slack/actions';
@@ -23,14 +23,17 @@ app.error(async (error) => console.error(error));
 useTakumenCommand(app);
 useTakumenAction(app);
 
-// exports.slack = functions
-//   .runWith({
-//     timeoutSeconds: 60,
-//     memory: '2GB',
-//   })
-//   .region(REGION)
-//   .https.onRequest(receiver.app);
-export const slack = functions.region(REGION).https.onRequest(receiver.app);
+export const slack = functions
+  .runWith({
+    timeoutSeconds: 60,
+    memory: '1GB',
+  })
+  .region(REGION)
+  .https.onRequest(receiver.app);
 export const checkProducts = functions
+  .runWith({
+    timeoutSeconds: 60,
+    memory: '1GB',
+  })
   .region(REGION)
   .https.onRequest(checkProductsHandler);
